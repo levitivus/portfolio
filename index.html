@@ -14,9 +14,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script>
-    if (localStorage.getItem('theme') === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
+    (function() {
+      const savedMood = localStorage.getItem('mood') || 'midnight';
+      document.documentElement.setAttribute('data-mood', savedMood);
+      if (savedMood === 'professional') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    })();
   </script>
 </head>
 <body>
@@ -390,6 +396,58 @@
     </div>
   </section>
 
+  <!-- ===================== LEAVE A MESSAGE ===================== -->
+  <section class="section section-alt fade-up" id="leave-message">
+    <div class="container message-container">
+      <h2 class="section-title">Before you leave...</h2>
+      <p class="section-desc">The universe is a little quieter without your words.<br>Leave me a message.</p>
+      
+      <form id="message-form" class="message-form" novalidate>
+        <!-- Success Card -->
+        <div id="message-success-card" class="message-success-card" aria-live="polite">
+          <span class="success-icon">📨</span>
+          <h3 class="success-title">Transmission received.</h3>
+          <p class="success-desc">Thanks for leaving a little piece of yourself here.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="form-name" class="form-label">
+            <span>Name <span class="required">*</span></span>
+          </label>
+          <input type="text" id="form-name" name="name" class="form-input" placeholder="Your name" required minlength="2" maxlength="50" autocomplete="name">
+          <span class="error-message" id="error-name" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="form-email" class="form-label">
+            <span>Email <span class="optional">(Optional)</span></span>
+          </label>
+          <input type="email" id="form-email" name="email" class="form-input" placeholder="(Optional)" autocomplete="email">
+          <span class="error-message" id="error-email" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="form-msg" class="form-label">
+            <span>Message <span class="required">*</span></span>
+          </label>
+          <textarea id="form-msg" name="message" class="form-textarea" placeholder="Type anything..." required minlength="10" maxlength="500"></textarea>
+          <div class="form-textarea-footer">
+            <span class="error-message" id="error-msg" aria-live="polite"></span>
+            <span class="char-counter" id="char-counter">0 / 500</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="submit-btn" class="btn btn-primary">
+            <span class="btn-text">✉ Send Message</span>
+            <span class="btn-spinner" style="display: none;"></span>
+          </button>
+          <div class="form-global-error" id="form-global-error" aria-live="polite"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <p>© <span id="year"></span> Nithin Thomas · Not Built with 🤖</p>
@@ -416,6 +474,77 @@
     <div class="easter-egg-tooltip" id="easter-egg-tooltip">Catch me if you can 😄</div>
   </div>
 
+  <!-- Theme Orb & Selector Panel -->
+  <div class="theme-orb-container" id="theme-orb-container">
+    <!-- Panel -->
+    <div class="theme-panel" id="theme-panel" role="dialog" aria-label="Theme selection panel" aria-hidden="true" tabindex="-1">
+      <div class="theme-panel-header">
+        <span class="theme-panel-title">🎨 Mood</span>
+      </div>
+      <div class="theme-options">
+        <button class="theme-option" data-select-mood="midnight" aria-label="Select Midnight theme">
+          <span class="theme-option-icon">🌙</span>
+          <div class="theme-option-info">
+            <span class="theme-option-title">Midnight</span>
+            <div class="theme-preview-chip">
+              <span style="background: #0d0d0f; flex: 2;"></span>
+              <span style="background: #18191d; flex: 1;"></span>
+              <span style="background: #5B8DEF; flex: 1;"></span>
+            </div>
+          </div>
+          <span class="theme-option-status">✓ Selected</span>
+        </button>
+        <button class="theme-option" data-select-mood="professional" aria-label="Select Professional theme">
+          <span class="theme-option-icon">💼</span>
+          <div class="theme-option-info">
+            <span class="theme-option-title">Professional</span>
+            <div class="theme-preview-chip">
+              <span style="background: #f5f6f9; flex: 2;"></span>
+              <span style="background: #ffffff; flex: 1;"></span>
+              <span style="background: #3b71db; flex: 1;"></span>
+            </div>
+          </div>
+          <span class="theme-option-status">✓ Selected</span>
+        </button>
+        <button class="theme-option" data-select-mood="cyberpunk" aria-label="Select Cyberpunk theme">
+          <span class="theme-option-icon">⚡</span>
+          <div class="theme-option-info">
+            <span class="theme-option-title">Cyberpunk</span>
+            <div class="theme-preview-chip">
+              <span style="background: #0c0714; flex: 2;"></span>
+              <span style="background: #00f0ff; flex: 1;"></span>
+              <span style="background: #ff007f; flex: 1;"></span>
+            </div>
+          </div>
+          <span class="theme-option-status">✓ Selected</span>
+        </button>
+        <button class="theme-option" data-select-mood="retro" aria-label="Select Retro CRT theme">
+          <span class="theme-option-icon">💚</span>
+          <div class="theme-option-info">
+            <span class="theme-option-title">Retro CRT</span>
+            <div class="theme-preview-chip">
+              <span style="background: #040805; flex: 2;"></span>
+              <span style="background: #33ff66; flex: 1;"></span>
+            </div>
+          </div>
+          <span class="theme-option-status">✓ Selected</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Floating Orb Button -->
+    <button class="theme-orb" id="theme-orb" aria-label="Open theme selection panel" aria-haspopup="dialog" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 9.5 20.5 7.5 18 7.5H16.5C15.6716 7.5 15 6.82843 15 6V4.5C15 2 13 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
+        <circle cx="7.5" cy="10.5" r="1.5" fill="currentColor"></circle>
+        <circle cx="11.5" cy="7.5" r="1.5" fill="currentColor"></circle>
+        <circle cx="16.5" cy="10.5" r="1.5" fill="currentColor"></circle>
+      </svg>
+    </button>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="email-service.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

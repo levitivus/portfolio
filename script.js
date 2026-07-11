@@ -131,35 +131,115 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-/* ── 7. THEME TOGGLE ───────────────────────────────────────────────── */
+/* ── 7. MOOD TOGGLE & THEME ORB SYSTEM ─────────────────────────────── */
 const themeToggle = document.getElementById('theme-toggle');
+const themeOrb = document.getElementById('theme-orb');
+const themePanel = document.getElementById('theme-panel');
+const themeOptions = document.querySelectorAll('.theme-option');
 
-function setTheme(theme) {
+function setMood(mood) {
+  // Add transition class to animate theme variables smoothly
   document.body.classList.add('theme-transition');
-  if (theme === 'light') {
+  
+  // Set data-mood attribute
+  document.documentElement.setAttribute('data-mood', mood);
+  localStorage.setItem('mood', mood);
+  
+  // Update data-theme attribute for backwards compatibility with navbar toggle
+  if (mood === 'professional') {
     document.documentElement.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
   } else {
     document.documentElement.removeAttribute('data-theme');
     localStorage.setItem('theme', 'dark');
   }
+  
+  // Update active states in options list
+  themeOptions.forEach(opt => {
+    if (opt.getAttribute('data-select-mood') === mood) {
+      opt.classList.add('active');
+    } else {
+      opt.classList.remove('active');
+    }
+  });
+
   setTimeout(() => {
     document.body.classList.remove('theme-transition');
-  }, 300);
+  }, 350);
 }
 
-// Initial sync
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
-  document.documentElement.setAttribute('data-theme', 'light');
-} else {
-  document.documentElement.removeAttribute('data-theme');
+// Initial sync on load
+const storedMood = localStorage.getItem('mood');
+const defaultMood = storedMood || 'midnight';
+setMood(defaultMood);
+
+// Toggle Panel
+function togglePanel() {
+  const isOpen = themePanel.classList.contains('open');
+  if (isOpen) {
+    closePanel();
+  } else {
+    openPanel();
+  }
 }
 
+function openPanel() {
+  themePanel.classList.add('open');
+  themeOrb.setAttribute('aria-expanded', 'true');
+  themePanel.setAttribute('aria-hidden', 'false');
+  // Focus the first button in panel for keyboard accessibility
+  if (themeOptions.length > 0) {
+    themeOptions[0].focus();
+  }
+}
+
+function closePanel() {
+  themePanel.classList.remove('open');
+  themeOrb.setAttribute('aria-expanded', 'false');
+  themePanel.setAttribute('aria-hidden', 'true');
+}
+
+// Navbar Toggle Button event listener
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    setTheme(isLight ? 'dark' : 'light');
+    const currentMood = document.documentElement.getAttribute('data-mood') || 'midnight';
+    // Toggle between midnight and professional
+    const nextMood = currentMood === 'professional' ? 'midnight' : 'professional';
+    setMood(nextMood);
+  });
+}
+
+// Theme Orb and panel event listeners
+if (themeOrb && themePanel) {
+  themeOrb.addEventListener('click', (e) => {
+    e.stopPropagation();
+    togglePanel();
+  });
+  
+  // Click option
+  themeOptions.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const mood = btn.getAttribute('data-select-mood');
+      setMood(mood);
+      closePanel();
+      themeOrb.focus(); // Return focus to orb
+    });
+  });
+
+  // Close panel when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!themePanel.contains(e.target) && !themeOrb.contains(e.target)) {
+      closePanel();
+    }
+  });
+
+  // Close panel with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && themePanel.classList.contains('open')) {
+      closePanel();
+      themeOrb.focus();
+    }
   });
 }
 
@@ -318,3 +398,181 @@ if (egg) {
   // Start the animation loop
   requestAnimationFrame(animate);
 }
+
+/* ── 9. LEAVE A MESSAGE SECTION CONTROLLER ─────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('message-form');
+  const nameInput = document.getElementById('form-name');
+  const emailInput = document.getElementById('form-email');
+  const msgInput = document.getElementById('form-msg');
+  
+  const charCounter = document.getElementById('char-counter');
+  const submitBtn = document.getElementById('submit-btn');
+  const successCard = document.getElementById('message-success-card');
+  const globalError = document.getElementById('form-global-error');
+
+  // Register section with IntersectionObserver for reveal animation if present
+  const leaveMessageSection = document.getElementById('leave-message');
+  if (leaveMessageSection && typeof fadeObserver !== 'undefined') {
+    fadeObserver.observe(leaveMessageSection);
+  } else if (leaveMessageSection) {
+    // Fallback if observer isn't defined globally
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    observer.observe(leaveMessageSection);
+  }
+
+  // Input elements change listeners to clear inline errors dynamically
+  const inputs = [nameInput, emailInput, msgInput];
+  inputs.forEach(input => {
+    if (input) {
+      input.addEventListener('input', () => {
+        input.classList.remove('invalid');
+        const fieldName = input.name || input.id.split('-')[1];
+        const errorSpan = document.getElementById(`error-${fieldName}`);
+        if (errorSpan) errorSpan.textContent = '';
+        if (globalError) globalError.textContent = '';
+      });
+    }
+  });
+
+  // Character counter listener
+  if (msgInput && charCounter) {
+    msgInput.addEventListener('input', () => {
+      const len = msgInput.value.length;
+      charCounter.textContent = `${len} / 500`;
+      if (len > 500) {
+        charCounter.style.color = '#ff3333';
+      } else {
+        charCounter.style.color = 'var(--text-muted)';
+      }
+    });
+  }
+
+  // Inline Validation Helpers
+  function validateField(input, condition, errorMessage) {
+    const fieldName = input.name || input.id.split('-')[1];
+    const errorSpan = document.getElementById(`error-${fieldName}`);
+    if (!condition) {
+      input.classList.add('invalid');
+      if (errorSpan) errorSpan.textContent = errorMessage;
+      return false;
+    } else {
+      input.classList.remove('invalid');
+      if (errorSpan) errorSpan.textContent = '';
+      return true;
+    }
+  }
+
+  function validateForm() {
+    let isValid = true;
+
+    // Validate name: required, min 2, max 50
+    const nameVal = nameInput.value.trim();
+    isValid = validateField(
+      nameInput,
+      nameVal.length >= 2 && nameVal.length <= 50,
+      'Name must be between 2 and 50 characters.'
+    ) && isValid;
+
+    // Validate email: optional, check formatting if filled
+    const emailVal = emailInput.value.trim();
+    if (emailVal.length > 0) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      isValid = validateField(
+        emailInput,
+        emailRegex.test(emailVal),
+        'Please enter a valid email address.'
+      ) && isValid;
+    } else {
+      // Clear errors if empty
+      validateField(emailInput, true, '');
+    }
+
+    // Validate message: required, min 10, max 500
+    const msgVal = msgInput.value.trim();
+    isValid = validateField(
+      msgInput,
+      msgVal.length >= 10 && msgVal.length <= 500,
+      'Message must be between 10 and 500 characters.'
+    ) && isValid;
+
+    return isValid;
+  }
+
+  // Form Submission
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (globalError) globalError.textContent = '';
+
+      // Run validation
+      if (!validateForm()) return;
+
+      // Set sending state
+      const btnText = submitBtn.querySelector('.btn-text');
+      const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+      submitBtn.disabled = true;
+      if (btnText) btnText.textContent = 'Sending...';
+      if (btnSpinner) btnSpinner.style.display = 'inline-block';
+
+      try {
+        // Initialize and send via window.EmailService
+        if (window.EmailService) {
+          await window.EmailService.init();
+          await window.EmailService.sendFeedback(
+            nameInput.value.trim(),
+            emailInput.value.trim(),
+            msgInput.value.trim()
+          );
+        } else {
+          throw new Error('Email service is currently unavailable.');
+        }
+
+        // Success state
+        if (btnText) btnText.textContent = '✓ Sent';
+        if (btnSpinner) btnSpinner.style.display = 'none';
+
+        // Reveal success card overlay
+        if (successCard) {
+          successCard.classList.add('show');
+        }
+
+        // Reset form inputs
+        form.reset();
+        if (charCounter) charCounter.textContent = '0 / 500';
+
+        // Auto-fade success card after 4.5 seconds
+        setTimeout(() => {
+          if (successCard) {
+            successCard.classList.remove('show');
+          }
+          // Re-enable and restore button
+          submitBtn.disabled = false;
+          if (btnText) btnText.textContent = '✉ Send Message';
+        }, 4500);
+
+      } catch (err) {
+        // Error state: do not lose typed content
+        console.error('Feedback send failed:', err);
+        submitBtn.disabled = false;
+        if (btnText) btnText.textContent = '✉ Send Message';
+        if (btnSpinner) btnSpinner.style.display = 'none';
+
+        if (globalError) {
+          globalError.textContent = 'Transmission failed. Please check your connection and try again.';
+        }
+      }
+    });
+  }
+});

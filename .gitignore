@@ -4,3 +4,7 @@ Thumbs.db
 
 # VS Code settings (optional)
 .vscode/
+
+# Environment files
+.env
+.env.local
