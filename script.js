@@ -293,13 +293,13 @@ if (egg) {
     e.preventDefault();
     e.stopPropagation();
 
-    const wrapper = egg.querySelector('.tesseract-wrapper');
-    if (wrapper) {
+    const wrappers = egg.querySelectorAll('.tesseract-wrapper, .capsule-wrapper');
+    wrappers.forEach(wrapper => {
       wrapper.classList.add('pulse-active');
       setTimeout(() => {
         wrapper.classList.remove('pulse-active');
       }, 250);
-    }
+    });
 
     setTimeout(() => {
       if (failedAttempts < 10) {

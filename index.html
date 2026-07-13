@@ -18,6 +18,7 @@
   <link rel="shortcut icon" href="images/favicon.ico">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/matrix.css" />
   <!-- Google Fonts: Inter (body) + JetBrains Mono (display/code) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -467,7 +468,18 @@
     <div class="tesseract-wrapper">
       <div class="tesseract-glow"></div>
       <div class="tesseract-cube">
-        <div class="tesseract-core"></div>
+        <div class="tesseract-core">
+          <div class="core-plasma p1"></div>
+          <div class="core-plasma p2"></div>
+        </div>
+        <div class="tesseract-inner-cube">
+          <div class="tesseract-face face-front"></div>
+          <div class="tesseract-face face-back"></div>
+          <div class="tesseract-face face-left"></div>
+          <div class="tesseract-face face-right"></div>
+          <div class="tesseract-face face-top"></div>
+          <div class="tesseract-face face-bottom"></div>
+        </div>
         <div class="tesseract-face face-front"></div>
         <div class="tesseract-face face-back"></div>
         <div class="tesseract-face face-left"></div>
@@ -482,6 +494,30 @@
         <span class="particle p4"></span>
         <span class="particle p5"></span>
         <span class="particle p6"></span>
+      </div>
+    </div>
+    <div class="capsule-wrapper">
+      <div class="capsule-glow"></div>
+      <div class="capsule-container">
+        <div class="capsule-pill">
+          <div class="pill-half pill-left">
+            <svg class="pill-logo" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.45H0V3.449zM0 12.45h9.75v9.45L0 20.551v-8.1zM10.8 1.95L24 0v11.55H10.8V1.95zM10.8 12.45H24v11.55l-13.2-1.95v-9.6z"/>
+            </svg>
+          </div>
+          <div class="pill-half pill-right">
+            <svg class="pill-logo" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 17.6c-.2-.6-.4-1.2-.6-1.8-.2-.5-.4-1-.7-1.4-.2-.3-.5-.7-.8-1-.3-.3-.6-.5-.9-.8.4-.3.7-.7.9-1.2.2-.4.4-.9.4-1.4 0-1.6-1.3-3-3-3s-3 1.4-3 3c0 .5.2.9.4 1.4.2.4.5.8.9 1.2-.3.3-.6.5-.9.8-.3.3-.6.7-.8 1-.3.4-.5.9-.7 1.4-.2.6-.4 1.2-.6 1.8-.1.4.2.8.6.9s.8-.2.9-.6c.2-.5.3-1 .5-1.5.2-.4.4-.9.7-1.3.2-.3.5-.6.8-.9.3-.3.7-.5 1.1-.7-.1-.2-.2-.5-.2-.8 0-1.1.9-2 2-2s2 .9 2 2c0 .3-.1.6-.2.8.4.2.8.4 1.1.7.3.3.6.6.8.9.3.4.5.9.7 1.3.2.5.3 1 .5 1.5.1.4.5.7.9.6.4-.1.7-.5.6-.9z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="matrix-choice-text">Choose wisely.</div>
+      <div class="capsule-particles">
+        <span class="particle cp1"></span>
+        <span class="particle cp2"></span>
+        <span class="particle cp3"></span>
+        <span class="particle cp4"></span>
       </div>
     </div>
     <div class="easter-egg-tooltip" id="easter-egg-tooltip">Catch me if you can 😄</div>
@@ -542,6 +578,18 @@
           </div>
           <span class="theme-option-status">✓ Selected</span>
         </button>
+        <button class="theme-option" data-select-mood="matrix" aria-label="Select Matrix theme">
+          <span class="theme-option-icon">🕶️</span>
+          <div class="theme-option-info">
+            <span class="theme-option-title">Matrix Mode</span>
+            <div class="theme-preview-chip">
+              <span style="background: #020402; flex: 2;"></span>
+              <span style="background: #00ff41; flex: 1;"></span>
+              <span style="background: #008f11; flex: 1;"></span>
+            </div>
+          </div>
+          <span class="theme-option-status">✓ Selected</span>
+        </button>
       </div>
     </div>
 
@@ -559,5 +607,7 @@
   <script src="config.js"></script>
   <script src="email-service.js"></script>
   <script src="script.js"></script>
+  <script src="effects/matrix-rain.js"></script>
+  <script src="js/matrix.js"></script>
 </body>
 </html>

@@ -889,33 +889,64 @@ ul {
 
 /* 4. Retro CRT */
 [data-mood="retro"] {
-  --bg:          #040805;
-  --bg-alt:      #070e09;
-  --surface:     #0a140d;
-  --border:      #142d1d;
-  --text:        #33ff66;
-  --text-muted:  #1b8b3a;
-  --accent:      #33ff66;
-  --accent-dim:  rgba(51, 255, 102, 0.15);
-  --hero-grad-start: #33ff66;
-  --hero-grad-end: #1b8b3a;
-  --nav-bg: rgba(4, 8, 5, 0.92);
-  --border-accent: rgba(51, 255, 102, 0.25);
-  --accent-hover: #5cff85;
-  --border-accent-hover: rgba(51, 255, 102, 0.45);
-  --border-accent-hover-item: rgba(51, 255, 102, 0.5);
-  --accent-shadow-hover: 0 8px 24px rgba(51, 255, 102, 0.35);
-  --shadow-hover: 0 16px 40px rgba(51, 255, 102, 0.15);
-  --shadow-hover-item: 0 12px 32px rgba(51, 255, 102, 0.15);
+  --bg:          #111411; /* Dark charcoal with slight green tint */
+  --bg-alt:      #151915;
+  --surface:     #192019;
+  --border:      #263326;
+  --text:        #4bfb73; /* Softer phosphor green */
+  --text-muted:  #29963e;
+  --accent:      #4bfb73;
+  --accent-dim:  rgba(75, 251, 115, 0.15);
+  --hero-grad-start: #4bfb73;
+  --hero-grad-end: #29963e;
+  --nav-bg: rgba(17, 20, 17, 0.92);
+  --border-accent: rgba(75, 251, 115, 0.25);
+  --accent-hover: #6cff8f;
+  --border-accent-hover: rgba(75, 251, 115, 0.45);
+  --border-accent-hover-item: rgba(75, 251, 115, 0.5);
+  --accent-shadow-hover: 0 8px 24px rgba(75, 251, 115, 0.35);
+  --shadow-hover: 0 16px 40px rgba(75, 251, 115, 0.15);
+  --shadow-hover-item: 0 12px 32px rgba(75, 251, 115, 0.15);
 
   /* Tesseract Variables */
   --tesseract-core-bg: #e6ffe6;
-  --tesseract-core-glow: #33ff66;
-  --tesseract-glow-bg: radial-gradient(circle, rgba(51,255,102,0.4) 0%, rgba(27,139,58,0.1) 70%);
-  --tesseract-face-bg: rgba(10, 20, 13, 0.55);
-  --tesseract-face-border: rgba(51, 255, 102, 0.6);
-  --tesseract-face-shadow: rgba(51, 255, 102, 0.4);
-  --tesseract-particle-color: #33ff66;
+  --tesseract-core-glow: #4bfb73;
+  --tesseract-glow-bg: radial-gradient(circle, rgba(75,251,115,0.4) 0%, rgba(41,150,62,0.1) 70%);
+  --tesseract-face-bg: rgba(25, 32, 25, 0.55);
+  --tesseract-face-border: rgba(75, 251, 115, 0.6);
+  --tesseract-face-shadow: rgba(75, 251, 115, 0.4);
+  --tesseract-particle-color: #4bfb73;
+}
+
+/* 5. Matrix Mode */
+[data-mood="matrix"] {
+  --bg:          #020402;
+  --bg-alt:      #050805;
+  --surface:     #080c08;
+  --border:      #0e1b0e;
+  --text:        #a3ffa3;
+  --text-muted:  #008f11;
+  --accent:      #00ff41;
+  --accent-dim:  rgba(0, 255, 65, 0.12);
+  --hero-grad-start: #00ff41;
+  --hero-grad-end: #003b00;
+  --nav-bg: rgba(2, 4, 2, 0.92);
+  --border-accent: rgba(0, 255, 65, 0.2);
+  --accent-hover: #33ff6b;
+  --border-accent-hover: rgba(0, 255, 65, 0.4);
+  --border-accent-hover-item: rgba(0, 255, 65, 0.45);
+  --accent-shadow-hover: 0 8px 24px rgba(0, 255, 65, 0.3);
+  --shadow-hover: 0 16px 40px rgba(0, 255, 65, 0.15);
+  --shadow-hover-item: 0 12px 32px rgba(0, 255, 65, 0.12);
+
+  /* Tesseract Variables */
+  --tesseract-core-bg: #e6ffe6;
+  --tesseract-core-glow: #00ff41;
+  --tesseract-glow-bg: radial-gradient(circle, rgba(0,255,65,0.4) 0%, rgba(0,143,17,0.1) 70%);
+  --tesseract-face-bg: rgba(2, 4, 2, 0.6);
+  --tesseract-face-border: rgba(0, 255, 65, 0.5);
+  --tesseract-face-shadow: rgba(0, 255, 65, 0.3);
+  --tesseract-particle-color: #00ff41;
 }
 
 /* ── CUSTOM MOOD EFFECTS ───────────────────────────────────────────── */
@@ -936,17 +967,25 @@ ul {
   100% { background-position: 0% 50%; }
 }
 
-/* Retro CRT scanlines and flicker overlay */
 [data-mood="retro"]::after {
   content: " ";
   display: block;
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%), 
+              radial-gradient(circle, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%);
   z-index: 99999;
-  background-size: 100% 4px, 6px 100%;
+  background-size: 100% 3px, 100% 100%;
   pointer-events: none;
+  box-shadow: inset 0 0 120px rgba(0,0,0,0.65); /* Curved screen edge shading */
+}
+
+[data-mood="retro"] h1,
+[data-mood="retro"] h2,
+[data-mood="retro"] h3,
+[data-mood="retro"] .nav-link,
+[data-mood="retro"] .btn {
+  text-shadow: 0 0 4px rgba(75, 251, 115, 0.4) !important;
 }
 
 [data-mood="retro"] body {
@@ -1648,23 +1687,60 @@ ul {
 .face-top    { transform: rotateX( 90deg) translateZ(16px); }
 .face-bottom { transform: rotateX(-90deg) translateZ(16px); }
 
-/* Glowing Core */
+/* Glowing Core with shifting energy flow */
 .tesseract-core {
   position: absolute;
   width: 14px;
   height: 14px;
-  background: var(--tesseract-core-bg);
+  background: radial-gradient(circle at 30% 30%, var(--tesseract-core-bg) 0%, var(--tesseract-core-glow) 70%);
+  background-size: 200% 200%;
   border-radius: 50%;
   box-shadow: 0 0 16px var(--tesseract-core-glow);
   transform: translate3d(0, 0, 0);
-  animation: core-pulse 2s ease-in-out infinite alternate;
+  animation: core-pulse 2s ease-in-out infinite alternate, core-plasma-flow 10s ease-in-out infinite alternate;
   top: 9px;
   left: 9px;
+  overflow: hidden;
 }
 
 @keyframes core-pulse {
   0% { transform: scale(0.85); opacity: 0.75; }
   100% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes core-plasma-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 50% 100%; }
+}
+
+/* Core plasma currents */
+.core-plasma {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--tesseract-core-glow);
+  filter: blur(1.5px);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+.core-plasma.p1 {
+  animation: plasma-current-1 8s ease-in-out infinite alternate;
+}
+
+.core-plasma.p2 {
+  animation: plasma-current-2 12s ease-in-out infinite alternate;
+}
+
+@keyframes plasma-current-1 {
+  0% { transform: scale(1.1) translate(1px, -1px); opacity: 0.35; }
+  100% { transform: scale(0.85) translate(-1px, 2px); opacity: 0.75; }
+}
+
+@keyframes plasma-current-2 {
+  0% { transform: scale(0.85) translate(-2px, 1px); opacity: 0.65; }
+  100% { transform: scale(1.15) translate(2px, -2px); opacity: 0.25; }
 }
 
 /* Bloom Background */
@@ -1735,6 +1811,44 @@ ul {
   50% { transform: translate3d(-8px, -20px, -8px); opacity: 0.8; }
 }
 
+/* Inner Rotating nested 3D Cube representing core energy flow structures */
+.tesseract-inner-cube {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transform-style: preserve-3d;
+  animation: tesseract-rotate-inner 14s linear infinite reverse; /* rotate reverse direction for parallax depth */
+  top: 7px;
+  left: 7px;
+  pointer-events: none;
+}
+
+@keyframes tesseract-rotate-inner {
+  0% { transform: rotateX(360deg) rotateY(0deg) rotateZ(360deg); }
+  100% { transform: rotateX(0deg) rotateY(-360deg) rotateZ(0deg); }
+}
+
+.tesseract-inner-cube .tesseract-face {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--tesseract-face-bg);
+  border: 1px solid var(--tesseract-face-border);
+  box-shadow: inset 0 0 5px var(--tesseract-face-shadow);
+  opacity: 0.8;
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Inner cube face translates */
+.tesseract-inner-cube .face-front  { transform: rotateY(  0deg) translateZ(9px); }
+.tesseract-inner-cube .face-back   { transform: rotateY(180deg) translateZ(9px); }
+.tesseract-inner-cube .face-left   { transform: rotateY(-90deg) translateZ(9px); }
+.tesseract-inner-cube .face-right  { transform: rotateY( 90deg) translateZ(9px); }
+.tesseract-inner-cube .face-top    { transform: rotateX( 90deg) translateZ(9px); }
+.tesseract-inner-cube .face-bottom { transform: rotateX(-90deg) translateZ(9px); }
+
 /* CRT Theme Specific Flicker Overlay */
 [data-mood="retro"] .tesseract-core,
 [data-mood="retro"] .tesseract-face,
@@ -1751,21 +1865,277 @@ ul {
 
 /* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  .tesseract-wrapper {
+  .tesseract-wrapper, .capsule-wrapper {
     animation: none !important;
   }
   .tesseract-cube {
     animation: none !important;
     transform: rotateX(25deg) rotateY(45deg) rotateZ(0deg);
   }
+  .tesseract-inner-cube {
+    animation: none !important;
+    transform: rotateX(-25deg) rotateY(-45deg) rotateZ(0deg);
+  }
   .tesseract-core {
     animation: none !important;
   }
-  .tesseract-glow {
+  .core-plasma {
+    animation: none !important;
+  }
+  .tesseract-glow, .capsule-glow {
     animation: none !important;
   }
   .particle {
     animation: none !important;
     opacity: 0.3;
   }
+  .capsule-pill {
+    animation: none !important;
+    transform: rotateX(25deg) rotateY(45deg) rotateZ(0deg);
+  }
+  .pill-top {
+    animation: none !important;
+    background-color: #00ff41 !important;
+    border-color: #00ff41 !important;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 0 10px rgba(0, 255, 65, 0.6) !important;
+  }
+  .pill-bottom {
+    animation: none !important;
+    background-color: #008f11 !important;
+    border-color: #008f11 !important;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 0 10px rgba(0, 255, 65, 0.4) !important;
+  }
+  .matrix-choice-text {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .capsule-particles .particle {
+    background: #00ff41 !important;
+  }
+}
+
+/* ── MATRIX MODE FLOATING CAPSULE ─────────────────────────────────── */
+
+/* Default Wrapper Display states */
+.tesseract-wrapper {
+  display: flex !important;
+}
+
+.capsule-wrapper {
+  display: none !important;
+}
+
+/* Override in Matrix Mode */
+[data-mood="matrix"] .tesseract-wrapper {
+  display: none !important;
+}
+
+[data-mood="matrix"] .capsule-wrapper {
+  display: flex !important;
+}
+
+/* Capsule Wrapper sizing & float */
+.capsule-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: capsule-float 4.5s ease-in-out infinite;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+@keyframes capsule-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(0.98); }
+}
+
+/* Hover scales up by ~8% (approx 5-10% range requested) */
+.easter-egg:hover .capsule-wrapper {
+  transform: scale(1.08);
+}
+
+.easter-egg:hover .capsule-glow {
+  opacity: 0.85;
+  filter: blur(18px);
+}
+
+/* Click pulse impact animation */
+.capsule-wrapper.pulse-active {
+  animation: capsule-pulse-impact 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes capsule-pulse-impact {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.4); filter: brightness(2.5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Capsule Container */
+.capsule-container {
+  width: 32px;
+  height: 32px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3D Pill rotation */
+.capsule-pill {
+  width: 14px;
+  height: 28px;
+  transform-style: preserve-3d;
+  position: relative;
+  animation: capsule-rotate 8s linear infinite;
+}
+
+@keyframes capsule-rotate {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+}
+
+/* Hover speeds up rotation */
+.easter-egg:hover .capsule-pill {
+  animation-duration: 4s;
+}
+
+/* Pill top & bottom halves */
+.pill-half {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px 7px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background-color 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease;
+}
+
+.pill-top {
+  top: 0;
+  transform: translateZ(2px);
+  animation: pill-color-top 12s infinite;
+}
+
+.pill-bottom {
+  bottom: 0;
+  transform: rotateX(180deg) translateZ(2px);
+  animation: pill-color-bottom 12s infinite;
+}
+
+/* Color cycling (6s Blue, 6s Red, with 600ms transitions) */
+@keyframes pill-color-top {
+  0%, 45%, 100% {
+    background-color: #005f73;
+    border-color: #0a9396;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 0 15px rgba(10, 147, 150, 0.65);
+  }
+  50%, 95% {
+    background-color: #9b2226;
+    border-color: #ae2012;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 0 15px rgba(174, 32, 18, 0.65);
+  }
+}
+
+@keyframes pill-color-bottom {
+  0%, 45%, 100% {
+    background-color: #0077b6;
+    border-color: #00b4d8;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 0 15px rgba(0, 180, 216, 0.65);
+  }
+  50%, 95% {
+    background-color: #ca6702;
+    border-color: #ee9b00;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), 0 0 15px rgba(238, 155, 0, 0.65);
+  }
+}
+
+/* Volumetric Capsule Glow Background */
+.capsule-glow {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  filter: blur(14px);
+  opacity: 0.65;
+  pointer-events: none;
+  animation: capsule-glow-cycle 12s infinite alternate, glow-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes capsule-glow-cycle {
+  0%, 45%, 100% {
+    background: radial-gradient(circle, rgba(0, 180, 216, 0.55) 0%, rgba(0, 119, 182, 0.05) 70%);
+  }
+  50%, 95% {
+    background: radial-gradient(circle, rgba(255, 51, 51, 0.55) 0%, rgba(189, 0, 0, 0.05) 70%);
+  }
+}
+
+/* Orbiting Capsule Particles */
+.capsule-particles {
+  position: absolute;
+  inset: -12px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.capsule-particles .particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: capsule-particle-cycle 12s infinite;
+}
+
+@keyframes capsule-particle-cycle {
+  0%, 45%, 100% {
+    background: #00ffff;
+    filter: drop-shadow(0 0 2px #00ffff);
+    box-shadow: 0 0 3px #00ffff;
+  }
+  50%, 95% {
+    background: #ff0000;
+    filter: drop-shadow(0 0 2px #ff0000);
+    box-shadow: 0 0 3px #ff0000;
+  }
+}
+
+.cp1 { top: 15%; left: 15%; animation: capsule-particle-cycle 12s infinite, particle-orbit-1 3.5s infinite; }
+.cp2 { bottom: 15%; left: 15%; animation: capsule-particle-cycle 12s infinite, particle-orbit-2 4.5s infinite; }
+.cp3 { top: 20%; right: 20%; animation: capsule-particle-cycle 12s infinite, particle-orbit-3 4s infinite; }
+.cp4 { bottom: 20%; right: 20%; animation: capsule-particle-cycle 12s infinite, particle-orbit-4 3.2s infinite; }
+
+/* Matrix floating choice text */
+.matrix-choice-text {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: #00ff41;
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.7);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: matrix-text-cycle 12s infinite;
+}
+
+@keyframes matrix-text-cycle {
+  /* Transition 1: Blue to Red (starts at 45% / 5.4s) */
+  0%, 42.5% { opacity: 0; transform: translate(-50%, 0) scale(0.9); }
+  45% { opacity: 0.1; }
+  47.5%, 55% { opacity: 0.75; transform: translate(-50%, -8px) scale(1); }
+  60% { opacity: 0.1; }
+  62.5%, 92.5% { opacity: 0; transform: translate(-50%, 0) scale(0.9); }
+  
+  /* Transition 2: Red to Blue (starts at 95% / 11.4s) */
+  95% { opacity: 0.1; }
+  97.5%, 5% { opacity: 0.75; transform: translate(-50%, -8px) scale(1); }
+  7.5% { opacity: 0.1; }
+  10%, 100% { opacity: 0; transform: translate(-50%, 0) scale(0.9); }
 }
