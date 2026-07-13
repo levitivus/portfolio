@@ -463,23 +463,27 @@
   </footer>
 
   <!-- Floating Easter Egg -->
-  <div id="easter-egg" class="easter-egg" aria-label="Mystery Box">
-    <svg width="60" height="60" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="4" y="4" width="56" height="56" rx="10" fill="url(#box-grad)" stroke="#d97706" stroke-width="3"/>
-      <path d="M10 6H54C56.2091 6 58 7.79086 58 10V14H6V10C6 7.79086 7.79086 6 10 6Z" fill="#fbbf24"/>
-      <rect x="6" y="6" width="52" height="52" rx="8" stroke="#ffffff" stroke-width="2" stroke-opacity="0.3" fill="none"/>
-      <path d="M32 44V40M32 34C35 34 37.5 31.5 37.5 28.5C37.5 25.5 35 23 32 23C29 23 26.5 25 26 27.5M32 37.5V36.5" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="12" cy="12" r="2.5" fill="#f59e0b"/>
-      <circle cx="52" cy="12" r="2.5" fill="#f59e0b"/>
-      <circle cx="12" cy="52" r="2.5" fill="#b45309"/>
-      <circle cx="52" cy="52" r="2.5" fill="#b45309"/>
-      <defs>
-        <linearGradient id="box-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#f59e0b"/>
-          <stop offset="100%" stop-color="#b45309"/>
-        </linearGradient>
-      </defs>
-    </svg>
+  <div id="easter-egg" class="easter-egg" aria-label="Energy Tesseract">
+    <div class="tesseract-wrapper">
+      <div class="tesseract-glow"></div>
+      <div class="tesseract-cube">
+        <div class="tesseract-core"></div>
+        <div class="tesseract-face face-front"></div>
+        <div class="tesseract-face face-back"></div>
+        <div class="tesseract-face face-left"></div>
+        <div class="tesseract-face face-right"></div>
+        <div class="tesseract-face face-top"></div>
+        <div class="tesseract-face face-bottom"></div>
+      </div>
+      <div class="tesseract-particles">
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+        <span class="particle p6"></span>
+      </div>
+    </div>
     <div class="easter-egg-tooltip" id="easter-egg-tooltip">Catch me if you can 😄</div>
   </div>
 

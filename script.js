@@ -290,13 +290,24 @@ if (egg) {
 
   // Handle direct click/touch on the egg
   egg.addEventListener('click', (e) => {
-    if (failedAttempts < 10) {
-      e.preventDefault();
-      e.stopPropagation();
-      registerFailedAttempt();
-    } else {
-      window.location.href = 'secret.html';
+    e.preventDefault();
+    e.stopPropagation();
+
+    const wrapper = egg.querySelector('.tesseract-wrapper');
+    if (wrapper) {
+      wrapper.classList.add('pulse-active');
+      setTimeout(() => {
+        wrapper.classList.remove('pulse-active');
+      }, 250);
     }
+
+    setTimeout(() => {
+      if (failedAttempts < 10) {
+        registerFailedAttempt();
+      } else {
+        window.location.href = 'secret.html';
+      }
+    }, 250);
   });
 
   // Handle missed clicks near the egg
