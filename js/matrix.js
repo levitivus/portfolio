@@ -40,7 +40,7 @@
   function startTerminalSequence(parent, onComplete) {
     const term = document.createElement('div');
     term.className = 'matrix-terminal';
-    term.style.cssText = 'font-family: monospace; color: #00ff41; background: #000; padding: 2rem; width: 100%; height: 100%; box-sizing: border-box; text-align: left; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; font-size: 14px; line-height: 1.5; z-index: 100001;';
+    term.style.cssText = 'font-family: monospace; color: #00ff41; background: #000; padding: 2rem; width: 100dvw; height: 100dvh; box-sizing: border-box; text-align: left; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; font-size: 14px; line-height: 1.5; z-index: 100001;';
     
     const lines = [
       "INITIALIZING MATRIX MODE...",
@@ -142,7 +142,7 @@
       // Phase 2: Fullscreen video overlay
       const overlay = document.createElement('div');
       overlay.id = 'matrix-overlay';
-      overlay.style.cssText = 'position: fixed; inset: 0; z-index: 100000; background: #000; display: flex; align-items: center; justify-content: center;';
+      overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100dvw; height: 100dvh; z-index: 100000; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden;';
       document.body.appendChild(overlay);
 
       const video = document.createElement('video');
@@ -150,7 +150,7 @@
       video.src = 'videos/matrix/matrix-intro.mp4';
       video.autoplay = true;
       video.playsInline = true;
-      video.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+      video.style.cssText = 'max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;';
       overlay.appendChild(video);
 
       let overlayRemoved = false;

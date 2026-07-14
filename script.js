@@ -251,8 +251,12 @@ if (egg) {
   let failedAttempts = 0;
   let tooltipTimeout;
 
-  let posX = Math.random() * (window.innerWidth - 100) + 20;
-  let posY = Math.random() * (window.innerHeight - 100) + 20;
+  // Cache viewport size to avoid layout reflows during requestAnimationFrame loop
+  let viewportWidth = window.innerWidth;
+  let viewportHeight = window.innerHeight;
+
+  let posX = Math.random() * (viewportWidth - 100) + 20;
+  let posY = Math.random() * (viewportHeight - 100) + 20;
   let velX = (Math.random() - 0.5) * 2;
   let velY = (Math.random() - 0.5) * 2;
 
@@ -272,8 +276,8 @@ if (egg) {
 
   function teleportBox() {
     const padding = 60;
-    posX = Math.random() * (window.innerWidth - 80 - padding * 2) + padding;
-    posY = Math.random() * (window.innerHeight - 80 - padding * 2) + padding;
+    posX = Math.random() * (viewportWidth - 80 - padding * 2) + padding;
+    posY = Math.random() * (viewportHeight - 80 - padding * 2) + padding;
   }
 
   function registerFailedAttempt() {
@@ -329,21 +333,23 @@ if (egg) {
     }
   });
 
-  // Handle resize to keep inside viewport bounds
+  // Handle resize to keep inside viewport bounds and update cache
   window.addEventListener('resize', () => {
+    viewportWidth = window.innerWidth;
+    viewportHeight = window.innerHeight;
     const size = 60;
-    if (posX > window.innerWidth - size - 10) {
-      posX = window.innerWidth - size - 10;
+    if (posX > viewportWidth - size - 10) {
+      posX = viewportWidth - size - 10;
     }
-    if (posY > window.innerHeight - size - 10) {
-      posY = window.innerHeight - size - 10;
+    if (posY > viewportHeight - size - 10) {
+      posY = viewportHeight - size - 10;
     }
   });
 
   // requestAnimationFrame Physics Loop
   function animate() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = viewportWidth;
+    const height = viewportHeight;
     const size = 60;
 
     let targetVelX = velX;
