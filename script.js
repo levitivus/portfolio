@@ -78,12 +78,19 @@ const sectionObserver = new IntersectionObserver(
         // Add active to the matching link
         const activeLink = navLinkMap[entry.target.id];
         if (activeLink) activeLink.classList.add('active');
+
+        // Set data-active-section attribute on body for scrolling color transitions
+        let activeId = entry.target.id;
+        if (activeId === 'leave-message') {
+          activeId = 'contact'; // Treat leave-message as part of the contact region
+        }
+        document.body.setAttribute('data-active-section', activeId);
       }
     });
   },
   {
-    threshold: 0.3,           // section must be 30% visible to activate link
-    rootMargin: '-60px 0px -40% 0px'
+    threshold: 0.05,          // Reduced from 0.3 to allow tall sections (like Projects) to trigger
+    rootMargin: '-80px 0px -75% 0px' // Focus observer window near the top of the viewport
   }
 );
 
@@ -251,12 +258,8 @@ if (egg) {
   let failedAttempts = 0;
   let tooltipTimeout;
 
-  // Cache viewport size to avoid layout reflows during requestAnimationFrame loop
-  let viewportWidth = window.innerWidth;
-  let viewportHeight = window.innerHeight;
-
-  let posX = Math.random() * (viewportWidth - 100) + 20;
-  let posY = Math.random() * (viewportHeight - 100) + 20;
+  let posX = Math.random() * (window.innerWidth - 100) + 20;
+  let posY = Math.random() * (window.innerHeight - 100) + 20;
   let velX = (Math.random() - 0.5) * 2;
   let velY = (Math.random() - 0.5) * 2;
 
@@ -276,8 +279,8 @@ if (egg) {
 
   function teleportBox() {
     const padding = 60;
-    posX = Math.random() * (viewportWidth - 80 - padding * 2) + padding;
-    posY = Math.random() * (viewportHeight - 80 - padding * 2) + padding;
+    posX = Math.random() * (window.innerWidth - 80 - padding * 2) + padding;
+    posY = Math.random() * (window.innerHeight - 80 - padding * 2) + padding;
   }
 
   function registerFailedAttempt() {
@@ -297,13 +300,13 @@ if (egg) {
     e.preventDefault();
     e.stopPropagation();
 
-    const wrappers = egg.querySelectorAll('.tesseract-wrapper, .capsule-wrapper');
-    wrappers.forEach(wrapper => {
+    const wrapper = egg.querySelector('.tesseract-wrapper');
+    if (wrapper) {
       wrapper.classList.add('pulse-active');
       setTimeout(() => {
         wrapper.classList.remove('pulse-active');
       }, 250);
-    });
+    }
 
     setTimeout(() => {
       if (failedAttempts < 10) {
@@ -333,23 +336,21 @@ if (egg) {
     }
   });
 
-  // Handle resize to keep inside viewport bounds and update cache
+  // Handle resize to keep inside viewport bounds
   window.addEventListener('resize', () => {
-    viewportWidth = window.innerWidth;
-    viewportHeight = window.innerHeight;
     const size = 60;
-    if (posX > viewportWidth - size - 10) {
-      posX = viewportWidth - size - 10;
+    if (posX > window.innerWidth - size - 10) {
+      posX = window.innerWidth - size - 10;
     }
-    if (posY > viewportHeight - size - 10) {
-      posY = viewportHeight - size - 10;
+    if (posY > window.innerHeight - size - 10) {
+      posY = window.innerHeight - size - 10;
     }
   });
 
   // requestAnimationFrame Physics Loop
   function animate() {
-    const width = viewportWidth;
-    const height = viewportHeight;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     const size = 60;
 
     let targetVelX = velX;
