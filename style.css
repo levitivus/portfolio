@@ -73,6 +73,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: background-color;
 }
 
 /* Active section background variables mapper */
@@ -272,6 +273,7 @@ ul {
   display: flex;
   align-items: center;
   padding-top: calc(var(--nav-h) + 2rem);
+  position: relative;
 }
 
 .hero-grid {
@@ -1879,5 +1881,148 @@ ul {
   .particle {
     animation: none !important;
     opacity: 0.3;
+  }
+}
+
+/* ── RESUME FLOATING BUTTON ────────────────────────────────────────── */
+.resume-floating-btn {
+  position: absolute;
+  top: calc(var(--nav-h) + 1.25rem);
+  right: 2rem;
+  z-index: 999; /* Below main navbar mobile overlay, but above page content */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50px; /* Fully rounded pill button */
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+
+.resume-btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.resume-icon {
+  transition: transform 0.3s var(--ease);
+}
+
+.resume-btn-status {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(20px);
+  opacity: 0;
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--accent);
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+
+/* Hover: subtle scale, gentle glow, download icon animates slightly */
+.resume-floating-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px var(--accent-dim), 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: var(--bg-alt);
+}
+
+.resume-floating-btn:hover .resume-icon {
+  transform: translateY(2px);
+}
+
+/* Focus outline matching theme style */
+.resume-floating-btn:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* Active theme integration */
+[data-mood="professional"] .resume-floating-btn {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-mood="cyberpunk"] .resume-floating-btn {
+  border-color: var(--border-accent);
+}
+[data-mood="cyberpunk"] .resume-floating-btn:hover {
+  box-shadow: 0 0 15px var(--accent-dim);
+}
+
+[data-mood="retro"] .resume-floating-btn {
+  border-color: var(--border-accent);
+  border-radius: 4px; /* Less rounded corners for Retro CRT */
+}
+
+/* Clicked / Downloading status active styling */
+.resume-floating-btn.downloading {
+  pointer-events: none;
+  background: var(--bg);
+  border-color: var(--accent);
+}
+
+.resume-floating-btn.downloading .resume-btn-content {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.resume-floating-btn.downloading .resume-btn-status {
+  transform: translate(-50%, -50%) translateY(0);
+  opacity: 1;
+}
+
+/* Mobile responsive styling - Reposition and GPU optimize */
+@media (max-width: 768px) {
+  .resume-floating-btn {
+    top: auto;
+    right: auto;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    transform: translateZ(0); /* promote to compositor layer */
+  }
+
+  /* GPU Layer promotion and layout stability optimization for other components */
+  .theme-orb-container {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .navbar {
+    will-change: transform, background-color;
+    transform: translateZ(0);
+  }
+
+  /* Performance optimization: deactivate off-screen animations */
+  .easter-egg.off-screen .tesseract-wrapper,
+  .easter-egg.off-screen .tesseract-cube,
+  .easter-egg.off-screen .tesseract-inner-cube,
+  .easter-egg.off-screen .tesseract-core,
+  .easter-egg.off-screen .core-plasma,
+  .easter-egg.off-screen .tesseract-glow,
+  .easter-egg.off-screen .particle {
+    animation: none !important;
+    display: none !important;
   }
 }

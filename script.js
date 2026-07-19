@@ -18,13 +18,21 @@ if (yearEl) {
 /* ── 2. NAVBAR SCROLL EFFECT ───────────────────────────────────────── */
 /* Adds .scrolled class after the user scrolls past 20px.
    CSS handles the visual change (backdrop-filter + border). */
-const navbar = document.getElementById('navbar');
-
+let scrollTick = false;
 function handleNavbarScroll() {
-  if (window.scrollY > 20) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
+  if (!scrollTick) {
+    window.requestAnimationFrame(() => {
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        if (window.scrollY > 20) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }
+      scrollTick = false;
+    });
+    scrollTick = true;
   }
 }
 
@@ -347,8 +355,16 @@ if (egg) {
     }
   });
 
+  let isEggVisible = true;
+  let animFrameId = null;
+
   // requestAnimationFrame Physics Loop
   function animate() {
+    if (!isEggVisible) {
+      animFrameId = null;
+      return;
+    }
+
     const width = window.innerWidth;
     const height = window.innerHeight;
     const size = 60;
@@ -410,11 +426,24 @@ if (egg) {
 
     egg.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
 
-    requestAnimationFrame(animate);
+    animFrameId = requestAnimationFrame(animate);
   }
 
-  // Start the animation loop
-  requestAnimationFrame(animate);
+  // Use IntersectionObserver to pause physics loop and animations when off-screen
+  const eggObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isEggVisible = entry.isIntersecting;
+      if (isEggVisible) {
+        egg.classList.remove('off-screen');
+        if (!animFrameId) {
+          animFrameId = requestAnimationFrame(animate);
+        }
+      } else {
+        egg.classList.add('off-screen');
+      }
+    });
+  }, { threshold: 0 });
+  eggObserver.observe(egg);
 }
 
 /* ── 9. LEAVE A MESSAGE SECTION CONTROLLER ─────────────────────────── */
@@ -591,6 +620,19 @@ document.addEventListener('DOMContentLoaded', () => {
           globalError.textContent = 'Transmission failed. Please check your connection and try again.';
         }
       }
+    });
+  }
+});
+
+/* ── 9. FLOATING RESUME BUTTON UX ──────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const resumeBtn = document.getElementById('resume-floating-btn');
+  if (resumeBtn) {
+    resumeBtn.addEventListener('click', () => {
+      resumeBtn.classList.add('downloading');
+      setTimeout(() => {
+        resumeBtn.classList.remove('downloading');
+      }, 1500);
     });
   }
 });
